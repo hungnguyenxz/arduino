@@ -35,7 +35,7 @@ void loop()
     delay(200);
   }
   
-  delay(200);
+  delay(300);
   
   
   bool even = ledCount % 2 == 0;
@@ -57,7 +57,7 @@ void loop()
   for(int i = 0; i <= mid; i++){
     digitalWrite(leds[i], LOW);
     digitalWrite(leds[ledCount - 1 - i], LOW);
-    delay(300);
+    delay(150);
   }
 }
 
