@@ -31,12 +31,12 @@ void A2B() {
   // Sáng tuần tự A -> B
   for (int i = 0; i < ledCount; i++) {
     digitalWrite(leds[i], HIGH);
-    delay(200);
+    delay(1000);
   }
   // Tắt tuần tự A -> B
   for (int i = 0; i < ledCount; i++) {
     digitalWrite(leds[i], LOW);
-    delay(200);
+    delay(1000);
   }
 }
 
@@ -44,12 +44,12 @@ void B2A() {
   // Sáng tuần tự B -> A
   for (int i = ledCount - 1; i >= 0; i--) {
     digitalWrite(leds[i], HIGH);
-    delay(200);
+    delay(1000);
   }
   // Tắt tuần tự B -> A
   for (int i = ledCount - 1; i >= 0; i--) {
     digitalWrite(leds[i], LOW);
-    delay(200);
+    delay(1000);
   }
 }
 
@@ -65,14 +65,14 @@ void M2AB() {
   for (int i = mid; i >= 0; i--) {
     digitalWrite(leds[i], HIGH);
     digitalWrite(leds[ledCount - 1 - i], HIGH);
-    delay(300);
+    delay(1500);
   }
 
   // Tắt từ 2 bên vào giữa
   for (int i = 0; i <= mid; i++) {
     digitalWrite(leds[i], LOW);
     digitalWrite(leds[ledCount - 1 - i], LOW);
-    delay(300);
+    delay(1500);
   }
 }
 
@@ -84,12 +84,12 @@ void xen_ke() {
         digitalWrite(leds[i + 1], LOW);
       }
     }
-    delay(1000);
+    delay(1500);
     for (int i = 1; i <= ledCount; i += 2) {
       digitalWrite(leds[i], HIGH);
       digitalWrite(leds[i - 1], LOW);
     }
-    delay(1000);
+    delay(1500);
   }
   turnOffAll();
 }
