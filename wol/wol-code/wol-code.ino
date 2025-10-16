@@ -45,7 +45,7 @@ void handleRoot() {
   }
 
   String html = "<html><head><meta charset='UTF-8'><title>Wake-on-LAN</title>";
-  html += "<style>body{padding-top:50px;font-family:sans-serif;text-align:center;background:#f0f2f5;}button{margin:10px;padding:10px 20px;font-size:18px;border:none;border-radius:8px;background:#0078D7;color:white;cursor:pointer;}button:hover{background:#005a9e;}</style>";
+  html += "<style>body{font-size:xxx-large;padding-top:100px;font-family:sans-serif;text-align:center;background:#f0f2f5;}form{margin-bottom:10px;}button{margin:10px;padding:10px 20px;font-size:xx-large;border:none;border-radius:8px;background:#0078D7;color:white;cursor:pointer;}button:hover{background:#005a9e;}</style>";
   html += "</head><body><h2>Wake-on-LAN Dashboard</h2>";
 
   for (int i = 0; i < targetCount; i++) {
@@ -54,10 +54,10 @@ void handleRoot() {
     html += "<button type='submit'>Turn on PC: " + String(targets[i].name) + "</button></form>";
   }
 
-  html += "<p style='margin-top:20px;font-size:14px;color:#555;'>ESP8266 IP: ";
+  html += "<p style='margin-top:20px;font-size:18px;color:#555;'>ESP8266 IP: ";
   html += WiFi.localIP().toString();
   html += "</p>";
-  html += "<p style='margin-top:0px;font-size:14px;color:#555;'>Current time (VNT +7): <span id='time'></span></p>";
+  html += "<p style='margin-top:0px;font-size:18px;color:#555;'>Current time (VNT +7): <span id='time'></span></p>";
 
 
   String script = R"rawliteral(
