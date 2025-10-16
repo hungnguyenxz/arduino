@@ -1,6 +1,7 @@
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 #include <ESP8266WebServer.h>
+#include <ArduinoOTA.h>
 
 const char* ssid = "Doremon";
 const char* password = "15011996";
@@ -13,6 +14,10 @@ IPAddress subnet(255,255,255,0);
 // ===== Cấu hình bảo mật web =====
 const char* webUser = "admin";
 const char* webPass = "7fAEUzV6oCgg57!";
+
+// ✅ (Tuỳ chọn) Cấu hình tên và mật khẩu OTA
+const char* otaHostname = "admin";
+const char* otaPassword = "7fAEUzV6oCgg57!-ota";
 
 // ===== Cấu hình danh sách máy cần bật =====
 struct TargetPC {
@@ -58,6 +63,8 @@ void handleRoot() {
   html += WiFi.localIP().toString();
   html += "</p>";
   html += "<p style='margin-top:0px;font-size:18px;color:#555;'>Current time (VNT +7): <span id='time'></span></p>";
+  html += "<p style='margin-top:0px;font-size:11px;color:#555;'>⛅ OTA is available!</p>";
+
 
 
   String script = R"rawliteral(
@@ -78,7 +85,14 @@ void handleRoot() {
 
   server.send(200, "text/html", html);
 }
-
+void handleRestart() {
+  if(!server.authenticate(webUser, webPass)) {
+    return server.requestAuthentication();
+  }
+  server.send(200, "text/html", "<html><body><h3>Restarting...</h3></body></html>");
+  delay(1000);
+  ESP.restart();
+}
 void handleWake() {
   if(!server.authenticate(webUser, webPass)) {
     return server.requestAuthentication();
@@ -117,10 +131,27 @@ void setup() {
 
   server.on("/", handleRoot);
   server.on("/wake", handleWake);
+  server.on("/restart", handleRestart);
   server.begin();
   Serial.println("HTTP server started on port "+port);
+
+  // Cấu hình OTA
+  ArduinoOTA.setHostname(otaHostname);
+  ArduinoOTA.setPassword(otaPassword);
+  ArduinoOTA.onStart([]() { Serial.println("Start updating..."); });
+  ArduinoOTA.onEnd([]() { Serial.println("\nUpdate complete!"); });
+  ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
+    Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
+  });
+  ArduinoOTA.onError([](ota_error_t error) {
+    Serial.printf("Error[%u]: ", error);
+  });
+  ArduinoOTA.begin();
+  Serial.println("Ready for OTA!");
+
 }
 
 void loop() {
+  ArduinoOTA.handle();
   server.handleClient();
 }
